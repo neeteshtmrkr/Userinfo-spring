@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.userinfo.main.user.model.User;
-import com.userinfo.main.user.services.UserServices;
+import com.userinfo.main.model.User;
+import com.userinfo.main.services.UserServices;
 
 @RestController
 @RequestMapping("/user")

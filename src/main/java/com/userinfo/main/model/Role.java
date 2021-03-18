@@ -1,22 +1,22 @@
-package com.userinfo.main.user.model;
+package com.userinfo.main.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 @Data
 @Entity
-public class User {
+@Table(name="roles")
+public class Role {
 	
 	@Id
 	@GeneratedValue
 	private Long id;
 	
+	
 	private String name;
-	private Long mobilenumber;
-	private String username;
-	private String password;
 	
 }

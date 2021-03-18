@@ -1,4 +1,4 @@
-package com.userinfo.main.user.services;
+package com.userinfo.main.services;
 
 public interface NotesServices<T> {
 	Object save(T t);

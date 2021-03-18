@@ -1,11 +1,13 @@
 package com.userinfo.main.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.userinfo.main.user.model.Notes;
-import com.userinfo.main.user.repo.NotesRepo;
-import com.userinfo.main.user.services.NotesServices;
+import com.userinfo.main.model.Notes;
+import com.userinfo.main.repo.NotesRepo;
+import com.userinfo.main.services.NotesServices;
 
+@Service
 public class NotesServicesImpl implements NotesServices<Notes> {
 
 	@Autowired

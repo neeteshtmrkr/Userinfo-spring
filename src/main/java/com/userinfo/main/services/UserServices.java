@@ -1,4 +1,4 @@
-package com.userinfo.main.user.services;
+package com.userinfo.main.services;
 
 public interface UserServices <T> {
 	
@@ -6,4 +6,6 @@ public interface UserServices <T> {
 	Object edit (long id,T t);
 	Object delete(long id);
 	Object list();
+	
+	
 }

@@ -3,9 +3,9 @@ package com.userinfo.main.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.userinfo.main.user.model.User;
-import com.userinfo.main.user.repo.UserRepo;
-import com.userinfo.main.user.services.UserServices;
+import com.userinfo.main.model.User;
+import com.userinfo.main.repo.UserRepo;
+import com.userinfo.main.services.UserServices;
 
 @Service
 public class UserServicesImpl implements UserServices<User> {

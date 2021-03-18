@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.userinfo.main.user.model.Notes;
-import com.userinfo.main.user.services.NotesServices;
+import com.userinfo.main.model.Notes;
+import com.userinfo.main.services.NotesServices;
 
 @RestController
 @RequestMapping("/notes")

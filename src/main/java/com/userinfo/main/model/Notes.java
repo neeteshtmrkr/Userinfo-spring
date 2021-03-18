@@ -1,4 +1,4 @@
-package com.userinfo.main.user.model;
+package com.userinfo.main.model;
 
 import java.util.Date;
 
