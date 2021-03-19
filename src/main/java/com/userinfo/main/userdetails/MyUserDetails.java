@@ -23,6 +23,7 @@ public class MyUserDetails implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<Role> roles=user.getRoles();
+//		String[] userRoles=user.getRoles().stream().map((role)->role.getName()).toArray(String[]::new);
 		List<SimpleGrantedAuthority> authorities=new ArrayList<>();
 		for(Role role:roles) {
 			authorities.add(new SimpleGrantedAuthority(role.getName()));
@@ -42,26 +43,27 @@ public class MyUserDetails implements UserDetails{
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
+
 
 }

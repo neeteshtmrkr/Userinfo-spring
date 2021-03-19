@@ -24,20 +24,21 @@ public class User {
 	@Id
 	@Column(name="user_id")
 	@GeneratedValue
-	private Long id;
+	private Integer id;
 	
 	private String name;
 	private Long mobilenumber;
 	private String username;
 	private String password;
-	private Boolean enabled;
+	
+	
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(
-			name="users_roles",
-			joinColumns = @JoinColumn(name="user_id"),
-			inverseJoinColumns = @JoinColumn(name="role_id")
-			)
-	private Set<Role> roles=new HashSet<>();
+	  
+	@JoinTable( 
+			name="users_roles", joinColumns = @JoinColumn(name="user_id"),
+	
+			inverseJoinColumns = @JoinColumn(name="role_id") ) 
+	private Set<Role> roles=new HashSet<>();	
 	
 }

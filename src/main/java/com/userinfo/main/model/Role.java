@@ -1,5 +1,6 @@
 package com.userinfo.main.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,6 +15,7 @@ public class Role {
 	
 	@Id
 	@GeneratedValue
+	@Column(name="role_id")
 	private Long id;
 	
 	
