@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>HomePage</title>
+</head>
+<body>
+	<div align="center">
+		<div sec:authorize="isAuthenticated()">
+			Welcome <b><span sec:authentication="name"></span></b>
+			<i><span sec:authentication="principal.authorities">Roles</span></i>
+		</div>
+		<table>
+			<tr></tr>
+		</table>
+		<!-- <div sec:authorize="hasAnyAuthority('ADMIN','USER')">
+			<p th:each="user:${userItems}">
+				<h3 th:text="${user.id}"></h3>
+			</p>
+			<table>
+			<tr th:each="user:${userItems}">
+				<td th:text="{user.id}">ID</td>
+			</tr>
+			</table>
+		</div> -->
+		<!-- <table>
+			<tr th:each="user:${userList}">
+				<td th:text=${user.name}></td>
+			</tr>
+		</table> -->
+	</div>
+</body>
+</html>

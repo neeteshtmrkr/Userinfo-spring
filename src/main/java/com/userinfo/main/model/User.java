@@ -1,6 +1,7 @@
 package com.userinfo.main.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,7 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -31,14 +35,16 @@ public class User {
 	private String username;
 	private String password;
 	
-	
-	
 	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	  
 	@JoinTable( 
-			name="users_roles", joinColumns = @JoinColumn(name="user_id"),
+	name="users_roles", joinColumns = @JoinColumn(name="user_id"),
 	
-			inverseJoinColumns = @JoinColumn(name="role_id") ) 
+	inverseJoinColumns = @JoinColumn(name="role_id") ) 
 	private Set<Role> roles=new HashSet<>();	
 	
+	@OneToMany(targetEntity = Notes.class ,fetch = FetchType.EAGER)
+	@JoinColumn(name="user_user_id")
+	@JsonManagedReference
+	private List<Notes> notes;
 }

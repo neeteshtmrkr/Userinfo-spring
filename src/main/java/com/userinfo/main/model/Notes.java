@@ -5,9 +5,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
@@ -18,6 +21,10 @@ public class Notes {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@ManyToOne()
+	@JsonBackReference
+	private User user;
 	
 	private String title;
 	

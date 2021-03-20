@@ -7,9 +7,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.userinfo.main.services.impl.UserDetailServicesImpl;
 
@@ -26,6 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //	public BCryptPasswordEncoder passwordEncoder() {
 //		return new BCryptPasswordEncoder();
 //	}
+	
 	
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
@@ -46,17 +50,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http.csrf().disable()
+			.authorizeRequests()
 			.antMatchers("/").permitAll()
-			.antMatchers("/user/**").hasAnyAuthority("ADMIN")
+			.antMatchers("/user/list","/notes/all","user/signup","/user/**").hasAnyAuthority("ADMIN")
+			.antMatchers("/notes/create-new","/user/").hasAnyAuthority("ADMIN","USER")
 			.anyRequest().authenticated()
 			.and()
-			.formLogin().permitAll()
-			.and()
-			.logout().permitAll();
+			.httpBasic();
+//			.formLogin().permitAll()
+//			.and()
+//			.logout().permitAll();
 	}
-
-	
-	
-	
 }
