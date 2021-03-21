@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -68,13 +69,42 @@ public class UserController {
 	 */
 	
 	@RequestMapping(value="/{_id}",method = RequestMethod.GET)
-	public ResponseEntity<?> info(@PathVariable("_id") int _id){
+	public ResponseEntity<?> info(@PathVariable("_id") int _id,Principal principal){
 //		return new ResponseEntity<>(userServices.findById(_id),HttpStatus.OK);
+		
 		return new ResponseEntity<>(userServices.getById(_id),HttpStatus.OK);
 	}
 	
+	/*
+	 * @RequestMapping(value="/username",method = RequestMethod.GET) public String
+	 * currentUsername(Authentication authentication) { Object
+	 * principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal
+	 * (); if(principal instanceof UserDetails) { String username; return
+	 * username=((UserDetails)principal).getUsername(); }else { String username;
+	 * return username=principal.toString(); } }
+	 */
 	
+	/*
+	 * @RequestMapping(value="/username",method = RequestMethod.GET) public String
+	 * currentUsername(Authentication authentication) { Object
+	 * principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal
+	 * ();
+	 * 
+	 * if(principal instanceof UserDetails) { String loggedinusername; return
+	 * loggedinusername=((UserDetails)principal).getUsername(); }else { String
+	 * loggedinusername; return loggedinusername=principal.toString(); } User
+	 * user=userRepo.getUsernameDetails(loggedinusername); }
+	 */
 	
-	
+	 @RequestMapping(value="")
+	 public ResponseEntity<?> hello(@CurrentSecurityContext(expression = "authentication?.name") String username) {
+		 return new ResponseEntity<> (userRepo.findByUsername(username),HttpStatus.OK);
+	 }
+	 
+	 
+//	 @RequestMapping(value="/details/{name}")
+//	 public ResponseEntity<?> details(@PathVariable ("name"==username),@CurrentSecurityContext(expression = "authentication?.name") String username){
+//		 
+//	 }
 	
 }

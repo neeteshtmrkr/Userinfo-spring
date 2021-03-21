@@ -1,6 +1,6 @@
 package com.userinfo.main.services;
 
-
+import org.springframework.security.access.prepost.PreAuthorize;
 
 public interface UserServices <T> {
 	
@@ -8,6 +8,8 @@ public interface UserServices <T> {
 	Object edit (long id,T t);
 	Object delete(long id);
 	Object list();
+	
+	
 	Object getById(int id);
 	Object find_by_name(String name);
 	
