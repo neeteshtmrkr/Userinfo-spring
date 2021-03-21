@@ -2,6 +2,7 @@ package com.userinfo.main.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -19,7 +23,7 @@ import com.userinfo.main.services.impl.UserDetailServicesImpl;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+	
 	@Bean
 	public UserDetailsService userDetailsService() {
 		return new UserDetailServicesImpl();
@@ -50,10 +54,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
 		http.csrf().disable()
 			.authorizeRequests()
 			.antMatchers("/").permitAll()
-			.antMatchers("/user/list","/notes/all","user/signup","user/all").hasAnyAuthority("ADMIN")
+			.antMatchers("/notes/delete/**").hasAnyAuthority("ADMIN","USER")
+			.antMatchers("/user/list","/notes/all","user/signup").hasAnyAuthority("ADMIN")
 			.antMatchers("/notes/create-new","/user/").hasAnyAuthority("ADMIN","USER")
 			.anyRequest().authenticated()
 			.and()

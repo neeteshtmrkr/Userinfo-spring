@@ -1,5 +1,7 @@
 package com.userinfo.main.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +27,17 @@ public class NotesServicesImpl implements NotesServices<Notes> {
 	}
 
 	@Override
-	public Object delete(long id) {
+	public void delete(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		notesRepo.deleteById(id);
 	}
 
 	@Override
 	public Object list() {
-		return notesRepo.findAll();
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	
 
 }
