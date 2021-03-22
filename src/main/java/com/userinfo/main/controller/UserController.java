@@ -36,30 +36,29 @@ public class UserController {
 
 	@Autowired
 	private UserRepo userRepo;
-	
+
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public ResponseEntity<?> save(@RequestBody User user) {
 		return new ResponseEntity<>(userServices.save(user), HttpStatus.OK);
 	}
 
-	
-	@RequestMapping(value="/",method = RequestMethod.GET) 
-	public String index(Model model){
 	/*
+	 * @RequestMapping(value="/",method = RequestMethod.GET) public String
+	 * index(Model model){
+	 * 
 	 * List<User> userItems= (List<User>) userServices.list(); //
 	 * model.addAttribute("userItems",userItems);
 	 * 
 	 * return "index"; }
+	 * 
+	 * model.addAttribute("userList",userRepo.findAll()); return "userinfo"; }
 	 */
-		model.addAttribute("userList",userRepo.findAll());
-		return "userinfo";
-	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ResponseEntity<?> get_all() {
 		return new ResponseEntity<>(userServices.list(), HttpStatus.OK);
 	}
-	
+
 	/*
 	 * @RequestMapping(value="/{user_id}",method = RequestMethod.GET) public
 	 * ResponseEntity<?> getUserInfo(@PathVariable("user_id") Long user_id,Principal
@@ -67,14 +66,14 @@ public class UserController {
 	 * ResponseEntity<>(userServices.find_by_id(user_id),HttpStatus.OK); } else
 	 * return null; }
 	 */
-	
-	@RequestMapping(value="/{_id}",method = RequestMethod.GET)
-	public ResponseEntity<?> info(@PathVariable("_id") int _id,Principal principal){
+
+	@RequestMapping(value = "/{_id}", method = RequestMethod.GET)
+	public ResponseEntity<?> info(@PathVariable("_id") int _id, Principal principal) {
 //		return new ResponseEntity<>(userServices.findById(_id),HttpStatus.OK);
-		
-		return new ResponseEntity<>(userServices.getById(_id),HttpStatus.OK);
+
+		return new ResponseEntity<>(userServices.getById(_id), HttpStatus.OK);
 	}
-	
+
 	/*
 	 * @RequestMapping(value="/username",method = RequestMethod.GET) public String
 	 * currentUsername(Authentication authentication) { Object
@@ -83,7 +82,7 @@ public class UserController {
 	 * username=((UserDetails)principal).getUsername(); }else { String username;
 	 * return username=principal.toString(); } }
 	 */
-	
+
 	/*
 	 * @RequestMapping(value="/username",method = RequestMethod.GET) public String
 	 * currentUsername(Authentication authentication) { Object
@@ -95,16 +94,24 @@ public class UserController {
 	 * loggedinusername; return loggedinusername=principal.toString(); } User
 	 * user=userRepo.getUsernameDetails(loggedinusername); }
 	 */
-	
-	 @RequestMapping(value="")
-	 public ResponseEntity<?> hello(@CurrentSecurityContext(expression = "authentication?.name") String username) {
-		 return new ResponseEntity<> (userRepo.findByUsername(username),HttpStatus.OK);
-	 }
-	 
-	 
+
+	/*
+	 * @RequestMapping(value = "") public ResponseEntity<?>
+	 * hello(@CurrentSecurityContext(expression = "authentication?.name") String
+	 * username) { return new ResponseEntity<>(userRepo.findByUsername(username),
+	 * HttpStatus.OK); }
+	 */
+
 //	 @RequestMapping(value="/details/{name}")
 //	 public ResponseEntity<?> details(@PathVariable ("name"==username),@CurrentSecurityContext(expression = "authentication?.name") String username){
 //		 
 //	 }
-	
+
+	@RequestMapping(value = "")
+	public String info(@CurrentSecurityContext(expression = "authentication?.name") String username, Model model) {
+		List<User> user = userRepo.findByUsername(username);
+		model.addAttribute("user", user);
+		return "userinfo";
+	}
+
 }

@@ -35,7 +35,7 @@ public class Notes {
 	
 	private String description;
 	
-	@Column(name="deleted",columnDefinition = "default'false'")
+	@Column(name="deleted")
 	private Boolean deleted=false;
 	
 	@CreationTimestamp
