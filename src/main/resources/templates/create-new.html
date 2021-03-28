@@ -6,16 +6,17 @@
 <body>
 	<h1>Creating New Notes</h1>
 	<div>
-	<form action="/notes/create-new" method="post" enctype="multipart/form-data">
-	<!-- <h3 th:text="${userdata.id}"></h3> -->
-	<label for="id">ID</label><input type="text" id="user" name="user"></input><br/><br/>
+	<form th:action="@{/notes/uploadFiles}" name="uploadFiles" method="post" enctype="multipart/form-data">
+	<!-- <h3 th:text="${userdata.id}"></h3> --> 
+	<!-- <input type="text" id="user"/> -->
 	<label for="title">Title</label>
+	<!-- <input type="text" name="user" id="user"> -->
 	<input type="text" id="title" placeholder="Title Here" name="title"></input><br/><br/>
 	<label for="description">Description</label>
 	<textarea type="text" id="description" placeholder="Description" name="description"></textarea>
 	<label for="data">File:</label>
-	<input type="file" id="file" name="file"></input>
-	<button type="submit">Save</button>
+	<input type="file" id="file" name="files" multiple required/>
+	<button type="submit">Submit</button>
 	</form>
 	</div>
 	<!-- <form th:action="@{/notes/create-new}" method="post" enctype="multipart/form-data">

@@ -28,9 +28,22 @@ font-family: 'Lato', sans-serif;
 					<details>
 						<summary th:text="${note.title}"> Title </summary>
 							<p th:text="${note.description}">Description</p>
-							
+							<table>
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Document Name</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<td th:text="${note.id}"></td>
+									<td th:text="${note.docName}"></td>
+									<td><a th:href="@{'/notes/downloadFile/'+${note.id}}">Download</a></td>
+								</tbody>
+							</table>
 							<h5>Note ID:<b th:text="${note.id}">ID</b></h5>
-							<h5>Created Date:<b th:text="${note.dateCreated}">Date Created</b></h5>
+							<!-- <h5>Created Date:<b th:text="${note.dateCreated}">Date Created</b></h5> -->
 					</details>
 				</div>
 		</div>

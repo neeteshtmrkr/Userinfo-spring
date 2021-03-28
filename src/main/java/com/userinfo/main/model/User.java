@@ -48,11 +48,11 @@ public class User {
 	inverseJoinColumns = @JoinColumn(name="role_id") ) 
 	private Set<Role> roles=new HashSet<>();	
 	
-	/*
-	 * @OneToMany(targetEntity = Notes.class ,fetch = FetchType.EAGER)
-	 * 
-	 * @JoinColumn(name="user_user_id")
-	 * 
-	 * @JsonManagedReference private List<Notes> notes;
-	 */
+	
+	  @OneToMany(targetEntity = Notes.class ,fetch = FetchType.EAGER)
+	  
+	  @JoinColumn(name="user_user_id")
+	  
+	  @JsonManagedReference private List<Notes> notes;
+	 
 }

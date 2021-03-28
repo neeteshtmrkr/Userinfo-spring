@@ -1,5 +1,6 @@
 package com.userinfo.main.services;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +18,10 @@ public class NotesServices{
 	@Autowired
 	public NotesRepo notesRepo;
 	
-	public Notes save(MultipartFile file) {
+	public Notes save(MultipartFile file,String title,String description,Boolean deleted) {
 		String docname=file.getOriginalFilename();
 		try {
-			Notes notes=new Notes(docname,file.getContentType(),file.getBytes());
+			Notes notes=new Notes(docname,file.getContentType(), file.getBytes(),title,description,deleted);
 			return notesRepo.save(notes);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -32,6 +33,10 @@ public class NotesServices{
 	}
 	public List<Notes> getFiles(){
 		return notesRepo.findAll();
+	}
+	
+	public void delete(long id) {
+		notesRepo.deleteById(id);
 	}
 	
 }

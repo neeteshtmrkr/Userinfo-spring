@@ -1,28 +1,18 @@
 package com.userinfo.main.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
+import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.dom4j.util.UserDataAttribute;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,12 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.userinfo.main.model.Notes;
 import com.userinfo.main.model.User;
-import com.userinfo.main.repo.NotesRepo;
-import com.userinfo.main.repo.UserRepo;
 import com.userinfo.main.services.NotesServices;
 
 @Controller
@@ -52,19 +40,16 @@ public class NotesController {
 	public String get(Model model) {
 		List<Notes> notes=notesServices.getFiles();
 		model.addAttribute("notes",notes);
-		return "file-adding";
+		return "create-new";
 		
 	}
 	
 	
 	@PostMapping("/uploadFiles")
-	public String uploadFiles(@RequestParam("files") MultipartFile[] files) {
-		for (MultipartFile file:files) {
-			notesServices.save(file);
-		}
-		return "redirect:/";
+	public ResponseEntity<?> uploadFiles(@RequestParam("files") MultipartFile files,@RequestParam("title") String title,
+				@RequestParam("description") String description,Boolean deleted) {
+		return new ResponseEntity<>(notesServices.save(files, title,description,deleted),HttpStatus.OK);
 	}
-	
 	
 	@GetMapping("/downloadFile/{fileId}")
 	public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Long fileId){
@@ -132,9 +117,14 @@ public class NotesController {
 	 * return new ResponseEntity<>(notesServices.edit(_id,notes),HttpStatus.OK); }
 	 */
 
-	/*
-	 * @RequestMapping(value="/delete/{_id}",method = RequestMethod.DELETE) public
-	 * void delete(@PathVariable long _id){ notesServices.delete(_id);}
-	 */
-
+	
+	  @DeleteMapping("/delete/{_id}")
+	  public void delete(@PathVariable long _id){ 
+		  notesServices.delete(_id);
+	  }
+	 
+	  @GetMapping("/all")
+	  public ResponseEntity<?> all(){
+		  return new ResponseEntity<>(notesServices.getFiles(),HttpStatus.OK);
+	  }
 }
