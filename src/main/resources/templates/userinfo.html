@@ -4,41 +4,31 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>HomePage</title>
-<!-- <link rel="stylesheet" th:href=@{../static/style.css}/> -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+body{
+font-family: 'Lato', sans-serif;
+}
+</style>
 </head>
 
 <body>
-	<div align="center">
+	<div align="left">
 		<div sec:authorize="isAuthenticated()">
 			Welcome <b><span sec:authentication="name"></span></b>
 			<i><span sec:authentication="principal.authorities">Roles</span></i>
 		</div>
-		<table>
-			<tr></tr>
-		</table>
-		
-		
-<!-- THIS IS A WORKING CODE DISPLAYS THE USER DETAILS AND NOTES BUT CHECKED FROM TABLE -->
-		<!-- <table>
-			<tr th:each="userdata:${user}" >
-				<td th:text="${userdata.id}"></td>
-				<td th:text="${userdata.name}"></td>
-				<td>
-					<table>
-						<tr th:each="note:${userdata.notes}">
-							<td th:text="${note.title}"></td>
-							<td th:text="${note.description}"></td>
-						</tr>
-					</table>
-			</tr>
-		</table> -->
-		
 		<div th:each="userdata:${user}">
-			<h3>:: NOTES OF <b th:text="${userdata.name}"></b> ::</h3>
+			<h3>:: NOTES OF <b th:text="${userdata.name}"></b> ::</h3><a align="left" href="http://localhost:8085/notes/create-new">Add New Note</a>
+				<br/>
+				<br/>
+				<b>||     YOUR NOTES   ||</b>
+				
 				<div th:each="note:${userdata.notes}">
 					<details>
 						<summary th:text="${note.title}"> Title </summary>
 							<p th:text="${note.description}">Description</p>
+							
 							<h5>Note ID:<b th:text="${note.id}">ID</b></h5>
 							<h5>Created Date:<b th:text="${note.dateCreated}">Date Created</b></h5>
 					</details>
