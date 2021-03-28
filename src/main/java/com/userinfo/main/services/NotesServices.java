@@ -39,4 +39,15 @@ public class NotesServices{
 		notesRepo.deleteById(id);
 	}
 	
+	public Object edit(long id,Notes notes) {
+		Notes n=notesRepo.findById(id).orElseThrow();
+		n.setTitle(notes.getTitle()!=null?notes.getTitle():n.getTitle());
+		n.setDescription(notes.getDescription()!=null?notes.getDescription():n.getDescription());
+		n.setDocName(notes.getDocName()!=null?notes.getDocName():n.getDocName());
+		n.setDocType(notes.getDocType()!=null?notes.getDocType():n.getDocType());
+		n.setData(notes.getData()!=null?notes.getData():n.getData());
+		return notesRepo.save(n);
+		
+	}
+	
 }

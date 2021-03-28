@@ -1,7 +1,5 @@
 package com.userinfo.main.repo;
 
-
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

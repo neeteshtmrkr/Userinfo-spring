@@ -28,19 +28,15 @@ public class Notes{
 	@GeneratedValue
 	private Long id;
 	
+	
 	/*
 	 * @ManyToOne()
 	 * 
 	 * @JsonBackReference private User user;
 	 */
-	 
+	
 	@Column(name="deleted") 
 	private Boolean deleted=false;
-	 
-	
-	/*
-	 * @Column(columnDefinition = "MEDIUMBLOB") private String image;
-	 */
 	
 	private String docName;
 	
@@ -73,7 +69,9 @@ public class Notes{
 		this.data = data;
 		this.title = title;
 		this.description = description;
+		
 	}
+	
 
 	public String getDescription() {
 		return description;

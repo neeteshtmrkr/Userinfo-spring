@@ -111,13 +111,11 @@ public class NotesController {
 	 * ResponseEntity<>(notesServices.list(),HttpStatus.OK); }
 	 */
 
-	/*
-	 * @RequestMapping(value="/edit/{_id}",method = RequestMethod.PUT) public
-	 * ResponseEntity<?> edit(@PathVariable long _id,@RequestBody Notes notes){
-	 * return new ResponseEntity<>(notesServices.edit(_id,notes),HttpStatus.OK); }
-	 */
-
 	
+	  @RequestMapping(value="/edit/{_id}",method = RequestMethod.PUT) public
+	  ResponseEntity<?> edit(@PathVariable long _id,@RequestBody Notes notes){
+	  return new ResponseEntity<>(notesServices.edit(_id,notes),HttpStatus.OK); }
+	 
 	  @DeleteMapping("/delete/{_id}")
 	  public void delete(@PathVariable long _id){ 
 		  notesServices.delete(_id);
