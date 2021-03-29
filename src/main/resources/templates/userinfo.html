@@ -19,15 +19,18 @@ font-family: 'Lato', sans-serif;
 			<i><span sec:authentication="principal.authorities">Roles</span></i>
 		</div>
 		<div th:each="userdata:${user}">
-			<h3>:: NOTES OF <b th:text="${userdata.name}"></b> ::</h3><a align="left" href="http://localhost:8085/notes/create-new">Add New Note</a>
+			<h3>:: NOTES OF <b th:text="${userdata.name}"></b> ::</h3><a align="left" href="http://localhost:8085/notes/">Add New Note</a>
 				<br/>
 				<br/>
 				<b>||     YOUR NOTES   ||</b>
 				
 				<div th:each="note:${userdata.notes}">
 					<details>
-						<summary th:text="${note.title}"> Title </summary>
+						<summary th:text="${note.title}">Title</summary>
 							<p th:text="${note.description}">Description</p>
+							<p><a th:href="@{/notes/update/{_id}(_id=${note.id})}">Edit</a></p>
+							<br/>
+							<b>FILES</b>
 							<table>
 								<thead>
 									<tr>
@@ -38,7 +41,7 @@ font-family: 'Lato', sans-serif;
 								</thead>
 								<tbody>
 									<td th:text="${note.id}"></td>
-									<td th:text="${note.docName}"></td>
+									<td th:text="${note.docName}">docName</td>
 									<td><a th:href="@{'/notes/downloadFile/'+${note.id}}">Download</a></td>
 								</tbody>
 							</table>

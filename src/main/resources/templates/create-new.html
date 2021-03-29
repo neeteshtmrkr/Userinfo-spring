@@ -8,7 +8,7 @@
 	<div>
 	<form th:action="@{/notes/uploadFiles}" th:object="${user}" name="uploadFiles" method="post" enctype="multipart/form-data">
 	<!-- <h3 th:text="${userdata.id}"></h3> --> 
-	<input type="text" id="user" name="*{user.id}"/>
+	<input type="text" id="user" readonly="readonly"/>
 	<label for="title">Title</label>
 	<!-- <input type="text" name="user" id="user"> -->
 	<input type="text" id="title" placeholder="Title Here" name="title"></input><br/><br/>

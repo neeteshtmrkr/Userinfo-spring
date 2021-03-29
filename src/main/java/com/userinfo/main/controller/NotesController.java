@@ -9,9 +9,11 @@ import org.springframework.core.io.ByteArrayResource;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +28,8 @@ import org.springframework.http.HttpStatus;
 
 import com.userinfo.main.model.Notes;
 import com.userinfo.main.model.User;
+import com.userinfo.main.repo.NotesRepo;
+import com.userinfo.main.repo.UserRepo;
 import com.userinfo.main.services.NotesServices;
 
 @Controller
@@ -35,9 +39,16 @@ public class NotesController {
 	@Autowired
 	private NotesServices notesServices;
 
+	@Autowired
+	private NotesRepo notesRepo;
+	
+	@Autowired
+	private UserRepo userRepo;
 	
 	@GetMapping("/")
-	public String get(Model model) {
+	public String get(@CurrentSecurityContext(expression = "authentication?.name") String username,Model model) {
+		List<User> user = userRepo.findByUsername(username);
+		model.addAttribute("user", user);
 		List<Notes> notes=notesServices.getFiles();
 		model.addAttribute("notes",notes);
 		return "create-new";
@@ -60,58 +71,6 @@ public class NotesController {
 				.body(new ByteArrayResource(notes.getData()));
 	}
 	
-	
-	
-	/*
-	 * @RequestMapping(value="/create-new") public String
-	 * get(@CurrentSecurityContext(expression = "authentication?.name") String
-	 * username,Model model){ Notes notes=new Notes(); List<User> usern =
-	 * userRepo.findByUsername(username); model.addAttribute("usern", usern);
-	 * model.addAttribute("notes", notes); return "create-new"; }
-	 */
-
-	/*
-	 * @RequestMapping(value="/create-new",method = RequestMethod.POST,consumes =
-	 * {MediaType.MULTIPART_FORM_DATA_VALUE},produces =
-	 * {MediaType.APPLICATION_JSON_VALUE}) public String save(@RequestParam("file")
-	 * MultipartFile file,@ModelAttribute("notes") Notes notes)throws IOException{
-	 * File convertFile=new File("var/tmp/"+file.getOriginalFilename());
-	 * convertFile.createNewFile(); FileOutputStream fout=new
-	 * FileOutputStream(convertFile); fout.write(file.getBytes()); fout.close();
-	 * notesServices.save(notes); return "redirect:/user/"; }
-	 */
-	/*
-	 * ObjectMapper objectMapper=new ObjectMapper();
-	 * 
-	 * @RequestMapping(value="/create-new",method = RequestMethod.POST) public
-	 * String save(@RequestParam(required = true,value="file") MultipartFile
-	 * file,@RequestParam(required = true,value ="jsondata" )String jsondata,Model
-	 * model) throws IOException{ File convertFile=new
-	 * File("c://mydownloads//"+file.getName()); convertFile.createNewFile();
-	 * FileOutputStream fout=new FileOutputStream(convertFile);
-	 * fout.write(file.getBytes()); fout.close();
-	 * 
-	 * Notes notes=objectMapper.readValue(jsondata,Notes.class);
-	 * model.addAttribute("notes",notes); return "create-new"; }
-	 */
-
-	/*
-	 * public String save(@RequestParam("title") String title,
-	 * 
-	 * @RequestParam("description") String description) { notesServices.
-	 * 
-	 * }
-	 */
-
-	
-	 
-	 
-	/*
-	 * @RequestMapping("/all") public ResponseEntity<?> get_all(){ return new
-	 * ResponseEntity<>(notesServices.list(),HttpStatus.OK); }
-	 */
-
-	
 	  @RequestMapping(value="/edit/{_id}",method = RequestMethod.PUT) public
 	  ResponseEntity<?> edit(@PathVariable long _id,@RequestBody Notes notes){
 	  return new ResponseEntity<>(notesServices.edit(_id,notes),HttpStatus.OK); }
@@ -124,5 +83,25 @@ public class NotesController {
 	  @GetMapping("/all")
 	  public ResponseEntity<?> all(){
 		  return new ResponseEntity<>(notesServices.getFiles(),HttpStatus.OK);
+	  }
+	  
+//================FOR EDITING THE NOTES DATA USING THE HTML PAGE=======================================================
+	  
+	  //To show the data associated with the note while in edit page
+	  @GetMapping("/update/{_id}")
+	  public String showUpdateForm(@PathVariable("_id") long _id,Model model) {
+		  Notes notes=notesRepo.findById(_id)
+				  .orElseThrow(()->new IllegalArgumentException("Invalid Notes Id:" + _id));
+		  
+		  model.addAttribute("notes",notes);
+		  return "update-notes";
+	  }
+	  
+	  //only editing the title and description
+	  //using the edit from notes services which lets us to edit only required field and set other as it is
+	  @PostMapping("/update/{_id}")
+	  public String updateNotes(@PathVariable("_id") long _id,Notes notes) {
+		  notesServices.edit(_id,notes);
+		  return "redirect:/user/";
 	  }
 }
