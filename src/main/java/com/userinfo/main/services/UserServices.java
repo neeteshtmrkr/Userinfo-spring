@@ -9,7 +9,7 @@ public interface UserServices <T> {
 	Object delete(long id);
 	Object list();
 	
-	
+	String passwordGenerator(String password);
 	Object getById(int id);
 	Object find_by_name(String name);
 	

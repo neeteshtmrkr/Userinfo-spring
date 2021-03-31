@@ -29,11 +29,11 @@ public class Notes{
 	private Long id;
 	
 	
-	/*
-	 * @ManyToOne()
-	 * 
-	 * @JsonBackReference private User user;
-	 */
+	
+	  @ManyToOne()
+	  
+	  @JsonBackReference private User user;
+	 
 	
 	@Column(name="deleted") 
 	private Boolean deleted=false;

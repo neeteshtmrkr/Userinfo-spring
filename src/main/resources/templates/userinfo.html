@@ -28,7 +28,8 @@ font-family: 'Lato', sans-serif;
 					<details>
 						<summary th:text="${note.title}">Title</summary>
 							<p th:text="${note.description}">Description</p>
-							<p><a th:href="@{/notes/update/{_id}(_id=${note.id})}">Edit</a></p>
+							<p><a th:href="@{/notes/update/{_id}(_id=${note.id})}">Edit Note</a></p>
+							<p><a th:href="@{/notes/delete/{_id}(_id=${note.id})}">Delete Note</a></p>
 							<br/>
 							<b>FILES</b>
 							<table>

@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.userinfo.main.services.impl.UserDetailServicesImpl;
 
@@ -29,19 +30,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new UserDetailServicesImpl();
 	}
 	
-//	@Bean
-//	public BCryptPasswordEncoder passwordEncoder() {
-//		return new BCryptPasswordEncoder();
-//	}
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 	
 	
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider=new DaoAuthenticationProvider();
-//		authProvider.setPasswordEncoder(passwordEncoder());
+		authProvider.setPasswordEncoder(passwordEncoder());
 		authProvider.setUserDetailsService(userDetailsService());
-		authProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-		
+		/* authProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance()); */
 		return authProvider;
 	}
 	
@@ -55,15 +55,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.csrf().disable()
+		http
+			.csrf().disable()
 			.authorizeRequests()
 			.antMatchers("/").permitAll()
 			.antMatchers("/notes/delete/**").hasAnyAuthority("ADMIN","USER")
 			.antMatchers("/user/list","/notes/all","user/signup").hasAnyAuthority("ADMIN")
-			.antMatchers("/notes/create-new","/user/").hasAnyAuthority("ADMIN","USER")
+			.antMatchers("/notes/create-new","/user/","notes/delete").hasAnyAuthority("ADMIN","USER")
+			.antMatchers(HttpMethod.POST,"/notes/create-new").hasAnyAuthority("USER","ADMIN")
 			.anyRequest().authenticated()
 			.and()
-			.httpBasic();
+			.httpBasic().and()
+			.logout().logoutUrl("/logout").logoutSuccessUrl("/");
 			/*.formLogin().permitAll()
 			.and()
 			.logout().permitAll();*/

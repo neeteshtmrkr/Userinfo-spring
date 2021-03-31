@@ -75,9 +75,10 @@ public class NotesController {
 	  ResponseEntity<?> edit(@PathVariable long _id,@RequestBody Notes notes){
 	  return new ResponseEntity<>(notesServices.edit(_id,notes),HttpStatus.OK); }
 	 
-	  @DeleteMapping("/delete/{_id}")
-	  public void delete(@PathVariable long _id){ 
+	  @GetMapping("/delete/{_id}")
+	  public String delete(@PathVariable long _id){ 
 		  notesServices.delete(_id);
+		  return "redirect:/user";
 	  }
 	 
 	  @GetMapping("/all")

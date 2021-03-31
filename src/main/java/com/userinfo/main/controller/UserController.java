@@ -34,6 +34,9 @@ public class UserController {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public ResponseEntity<?> save(@RequestBody User user) {
+		String pass=user.getPassword();
+		String encodedPass=userServices.passwordGenerator(pass);
+		user.setPassword(encodedPass);
 		return new ResponseEntity<>(userServices.save(user), HttpStatus.OK);
 	}
 

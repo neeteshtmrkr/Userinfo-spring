@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sun.el.stream.Optional;
@@ -49,6 +50,13 @@ public class UserServicesImpl implements UserServices<User> {
 	@Override
 	public Object getById(int id) {
 		return userRepo.findById(id);
+	}
+
+	@Override
+	public String passwordGenerator(String password) {
+		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+		String rawPassword=password;
+		return encoder.encode(rawPassword);
 	}
 
 	
